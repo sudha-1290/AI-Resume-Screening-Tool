@@ -507,7 +507,7 @@ class AuthController {
   private generateToken(userId: string, email: string, role: string): string {
     return jwt.sign(
       { id: userId, email, role },
-      process.env.JWT_SECRET!,
+      process.env.JWT_SECRET || 'fallback-secret',
       { expiresIn: process.env.JWT_EXPIRES_IN || '7d' }
     );
   }
@@ -515,7 +515,7 @@ class AuthController {
   private generateRefreshToken(userId: string): string {
     return jwt.sign(
       { id: userId },
-      process.env.JWT_REFRESH_SECRET!,
+      process.env.JWT_REFRESH_SECRET || 'fallback-refresh-secret',
       { expiresIn: process.env.JWT_REFRESH_EXPIRES_IN || '30d' }
     );
   }

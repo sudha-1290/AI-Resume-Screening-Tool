@@ -99,13 +99,17 @@ class ResumeController {
         .limit(parseInt(limit as string))
         .offset(offset);
 
+      const pageNum = parseInt(page as string);
+      const limitNum = parseInt(limit as string);
+      const totalCount = total?.count || 0;
+      
       const pagination: Pagination = {
-        page: parseInt(page as string),
-        limit: parseInt(limit as string),
-        total: total?.count || 0,
-        totalPages: Math.ceil((total?.count || 0) / parseInt(limit as string)),
-        hasNext: offset + parseInt(limit as string) < (total?.count || 0),
-        hasPrev: parseInt(page as string) > 1
+        page: pageNum,
+        limit: limitNum,
+        total: totalCount,
+        totalPages: Math.ceil(totalCount / limitNum),
+        hasNext: offset + limitNum < totalCount,
+        hasPrev: pageNum > 1
       };
 
       const response: ApiResponse<Resume[]> = {
